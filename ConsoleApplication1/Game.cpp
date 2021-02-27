@@ -1,47 +1,13 @@
 #include "Game.h"
+#include <pthread.h>
 
 
-void Game::GetKey() {
-    while (gameRunning) {
-        if (_kbhit != 0) {
-            char keyPressed = _getch();
-            switch (keyPressed) {
-                case 'w':
-                    keyBuffer.push_back('u');
-                    break;
-                case 's':
-                    keyBuffer.push_back('d');
-                    break;
-                case 'a':
-                    keyBuffer.push_back('l');
-                    break;
-                case 'd':
-                    keyBuffer.push_back('r');
-                    break;
-            }
-            if (keyPressed == 0 || keyPressed == 224) {
-                switch (_getch()) {
-                    case 72:
-                        keyBuffer.push_back('u');
-                        break;
-                    case 80:
-                        keyBuffer.push_back('d');
-                        break;
-                    case 75:
-                        keyBuffer.push_back('l');
-                        break;
-                    case 77:
-                        keyBuffer.push_back('r');
-                        break;
-                }
-            }
-
-        }
-
-    }
-}
 
 void Game::PlayGame() {
+     
+    //void(*getKeyPtr);
+    //getKeyPtr = &this->GetKey;
+    
     Grid playGrid = Grid();
     playGrid.setupGrid();
     int snakePosX = 20;
@@ -65,121 +31,40 @@ void Game::PlayGame() {
 
     char direction = 'u';
     char lastFramesDirection = 'u';
-    if (_kbhit()) {
-        char keyPressed = _getch();
-        switch (keyPressed) {
-        case 'w':
-            if (direction != 'd') {
-                direction = 'u';
-            }
-            break;
-        case 's':
-            if (direction != 'u') {
-                direction = 'd';
-            }
-            break;
-        case 'a':
-            if (direction != 'r') {
-                direction = 'l';
-            }
-            break;
-        case 'd':
-            if (direction != 'l') {
-                direction = 'r';
-            }
-            break;
-        case 72:
-            if (direction != 'd') {
-                direction = 'u';
-            }
-            break;
-        case 80:
-            if (direction != 'u') {
-                direction = 'd';
-            }
-            break;
-        case 75:
-            if (direction != 'r') {
-                direction = 'l';
-            }
-            break;
-        case 77:
-            if (direction != 'l') {
-                direction = 'r';
-            }
-            break;
-        }
-    }
+    
     unsigned long framesToPlay = 0;
     
     while (gameRunning) {
         //std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-        if (_kbhit()) {
-            char keyPressed = _getch();
-            switch (keyPressed) {
-            case 'w':
-                if (direction != 'd') {
-                    direction = 'u';
-                }
-                break;
-            case 's':
-                if (direction != 'u') {
-                    direction = 'd';
-                }
-                break;
-            case 'a':
-                if (direction != 'r') {
-                    direction = 'l';
-                }
-                break;
-            case 'd':
-                if (direction != 'l') {
-                    direction = 'r';
-                }
-                break;
-            case 72:
-                if (direction != 'd') {
-                    direction = 'u';
-                }
-                break;
-            case 80:
-                if (direction != 'u') {
-                    direction = 'd';
-                }
-                break;
-            case 75:
-                if (direction != 'r') {
-                    direction = 'l';
-                }
-                break;
-            case 77:
-                if (direction != 'l') {
-                    direction = 'r';
-                }
-                break;
-            }
+        if (!keyBuffer.empty()) {
+            direction = keyBuffer.front();
+            keyBuffer.pop();
         }
-        if (framesToPlay % 10 == 0) {
+        if (lastFramesDirection == 'u' && direction == 'd') {
+            direction = lastFramesDirection;
+        }
+        else if (lastFramesDirection == 'd' && direction == 'u') {
+            direction = lastFramesDirection;
+        }
+        else if (lastFramesDirection == 'l' && direction == 'r') {
+            direction = lastFramesDirection;
+        }
+        else if (lastFramesDirection == 'r' && direction == 'l') {
+            direction = lastFramesDirection;
+        }
+        
             if (direction == 'u') {
-                if (lastFramesDirection != 'd') {
-                    snakePosY--;
-                }
+                snakePosY--;
             }
             else if (direction == 'd') {
-                if (lastFramesDirection != 'u') {
-                    snakePosY++;
-                }
+                snakePosY++;
             }
             else if (direction == 'r') {
-                if (lastFramesDirection != 'l') {
-                    snakePosX++;
-                }
+                snakePosX++;
             }
             else if (direction == 'l') {
-                if (lastFramesDirection != 'r') {
-                    snakePosX--;
-                }
+                snakePosX--;
             }
             lastFramesDirection = direction;
             if (playGrid.grid.at(snakePosY).at(snakePosX) == "X" || playGrid.grid.at(snakePosY).at(snakePosX) == "#") {
@@ -215,12 +100,12 @@ void Game::PlayGame() {
                     positionsDrawnOver.erase(positionsDrawnOver.begin());
                 }
             }
-        }
+        
         //system("CLS");
         //if (framesToPlay % 100000) {
             playGrid.printGrid();
         //}
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(250));
         //framesToPlay++;
         
         

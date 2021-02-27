@@ -7,13 +7,14 @@
 #include "Grid.h"
 #include <conio.h>
 #include <random>
+#include <queue>
 class Game
 {
 	public:
 		std::thread* keyReader;
 		bool gameRunning = true;
-		std::vector<char> keyBuffer = {'u'};
-		void GetKey();
+		std::queue<char> keyBuffer;
+		//void GetKey();
 		void PlayGame();
 		void startKeyReader();
 		Game() {

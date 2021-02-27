@@ -29,15 +29,14 @@ void Grid::printGrid() {
             if (j != grid.at(i).size()) {
                 addch(' ');
             }
-            refresh();
+            
         }
         if (i != grid.size() - 1) {
             addch('\n');
         }
-        refresh();
         
     }
-    
+    refresh();
 }
 
 void Grid::setupGrid() {
