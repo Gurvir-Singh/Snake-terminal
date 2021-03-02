@@ -20,10 +20,8 @@ void Game::PlayGame() {
     int applePosY = 1;
     do {
         applePosX = distributionX(generator);
-    } while (applePosX == snakePosX);
-    do {
         applePosY = distributionY(generator);
-    } while (applePosY == snakePosY);
+    } while (playGrid.grid[applePosY][applePosX] != ".");
     playGrid.updateGrid(applePosX, applePosY, '0');
 
     std::vector<std::vector<int>> positionsDrawnOver = std::vector<std::vector<int>>();
@@ -74,10 +72,9 @@ void Game::PlayGame() {
                 if (playGrid.grid.at(snakePosY).at(snakePosX) == "0") {
                     do {
                         applePosX = distributionX(generator);
-                    } while (applePosX == snakePosX);
-                    do {
                         applePosY = distributionY(generator);
-                    } while (applePosY == snakePosY);
+                    } while (playGrid.grid[applePosY][applePosX] != ".");
+                    
                     playGrid.updateGrid(applePosX, applePosY, '0');
                     snakeLength++;
                     for (std::vector<int>& arr : positionsDrawnOver) {
@@ -105,7 +102,7 @@ void Game::PlayGame() {
         //if (framesToPlay % 100000) {
             playGrid.printGrid();
         //}
-        std::this_thread::sleep_for(std::chrono::milliseconds(250));
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
         //framesToPlay++;
         
         

@@ -5,27 +5,43 @@ void Grid::printGrid() {
     //HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     
     clear();
+    bool screenHasColor = has_colors();
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_BLACK);
+    init_pair(2, COLOR_RED, COLOR_BLACK);
+    init_pair(3, COLOR_GREEN, COLOR_BLACK);
+    init_pair(4, COLOR_BLACK, COLOR_BLACK);
     for (int i = 0; i < grid.size(); i++)
     {
         
         for (int j = 0; j < grid.at(i).size(); j++) {
             if (grid.at(i).at(j) == "X") {
-                //SetConsoleTextAttribute(hConsole, );
-                //system("Color 7");
+                
+                attron(COLOR_PAIR(1));
+                printw(grid.at(i).at(j).c_str());
+                attroff(COLOR_PAIR(1));
             }
             else if (grid.at(i).at(j) == "0") {
-                //SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
-                //system("Color 4");
+                
+                attron(COLOR_PAIR(2));
+                printw(grid.at(i).at(j).c_str());
+                attroff(COLOR_PAIR(2));
             }
             else if (grid.at(i).at(j) == "O" || grid.at(i).at(j) == "#") {
-                //SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
-                //system("Color 2");
+                
+                attron(COLOR_PAIR(3));
+                printw(grid.at(i).at(j).c_str());
+                attroff(COLOR_PAIR(3));
             }
             else {
-                //SetConsoleTextAttribute(hConsole, 30);
-                //system("Color 0");
+                
+                attron(COLOR_PAIR(4));
+                printw(grid.at(i).at(j).c_str());
+                attroff(COLOR_PAIR(4));
             }
-            printw(grid.at(i).at(j).c_str());
+            
+
+            
             if (j != grid.at(i).size()) {
                 addch(' ');
             }

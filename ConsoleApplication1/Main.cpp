@@ -12,27 +12,48 @@ void GetKey(Game* g) {
             char keyPressed = _getch();
             switch (keyPressed) {
             case 'w':
-                g->keyBuffer.push('u');
+                if (g->keyBuffer.size() == 0 || (g->keyBuffer.back() != 'u' && g->keyBuffer.size() <= 3)) {
+                    g->keyBuffer.push('u');
+                }
+                break;
             case 's':
-                g->keyBuffer.push('d');
+                if (g->keyBuffer.size() == 0 || (g->keyBuffer.back() != 'd' && g->keyBuffer.size() <= 3)) {
+                    g->keyBuffer.push('d');
+                }
                 break;
             case 'a':
-                g->keyBuffer.push('l');
+                if (g->keyBuffer.size() == 0 || (g->keyBuffer.back() != 'l' && g->keyBuffer.size() <= 3)) {
+                    g->keyBuffer.push('l');
+                }
                 break;
             case 'd':
-                g->keyBuffer.push('r');
+                if(g->keyBuffer.size() == 0 || (g->keyBuffer.back() != 'r' && g->keyBuffer.size() <= 3)) {
+                    g->keyBuffer.push('r');
+                }
                 break;
+            //up
             case 72:
-                g->keyBuffer.push('u');
+                if (g->keyBuffer.size() == 0 || (g->keyBuffer.back() != 'u' && g->keyBuffer.size() <= 3)) {
+                    g->keyBuffer.push('u');
+                }
                 break;
+            //down
             case 80:
-                g->keyBuffer.push('d');
+                if (g->keyBuffer.size() == 0 || (g->keyBuffer.back() != 'd' && g->keyBuffer.size() <= 3)) {
+                    g->keyBuffer.push('d');
+                }
                 break;
+            //left
             case 75:
-                g->keyBuffer.push('l');
+                if (g->keyBuffer.size() == 0 || (g->keyBuffer.back() != 'l' && g->keyBuffer.size() <= 3)) {
+                    g->keyBuffer.push('l');
+                }
                 break;
+            //right
             case 77:
-                g->keyBuffer.push('r');
+                if (g->keyBuffer.size() == 0 || (g->keyBuffer.back() != 'r' && g->keyBuffer.size() <= 3)) {
+                    g->keyBuffer.push('r');
+                }
                 break;
             }
         }
